@@ -5,6 +5,7 @@ import User from "../models/User.js";
 import Doctor from "../models/Doctor.js";
 import Specialty from "../models/Specialty.js";
 import Appointment from "../models/Appointment.js";
+import { getDoctorPhoto } from "../utils/doctorPhotos.js";
 
 const SPECIALTIES = [
   { name: "General physician", icon: "FaStethoscope", description: "Primary care and general health consultations." },
@@ -123,19 +124,20 @@ const run = async () => {
     const createdDoctors = [];
     for (const d of DOCTORS) {
       const email = `${slug(d.name)}@doctor.example.com`;
+      const photo = getDoctorPhoto(d.name) || avatar(d.name);
       const user = await User.create({
         name: d.name,
         email,
         password: "Doctor123!",
         role: "doctor",
         phone: "+1 555 020 0000",
-        profileImage: avatar(d.name),
+        profileImage: photo,
       });
       const doctor = await Doctor.create({
         user: user._id,
         name: d.name,
         email,
-        image: avatar(d.name),
+        image: photo,
         specialty: specMap[d.specialty],
         degree: d.degree,
         experience: d.experience,

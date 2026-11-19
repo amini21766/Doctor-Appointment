@@ -5,6 +5,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import path from "path";
 import fs from "fs";
+import { fileURLToPath } from "url";
 
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -44,6 +45,10 @@ if (process.env.NODE_ENV !== "production") {
 const uploadsDir = path.join(process.cwd(), "uploads");
 if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 app.use("/uploads", express.static(uploadsDir));
+
+// Bundled demo doctor portraits (tracked in git, unlike local uploads).
+const publicDir = path.join(path.dirname(fileURLToPath(import.meta.url)), "public");
+app.use("/doctor-images", express.static(path.join(publicDir, "doctor-images"), { maxAge: "7d" }));
 
 // Health check
 app.get("/api/health", (req, res) =>
