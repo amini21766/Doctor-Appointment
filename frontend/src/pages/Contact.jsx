@@ -183,51 +183,84 @@ export default function Contact() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-6xl px-6 py-16">
-      <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12">
-        {/* ------------------------------ Left: info ------------------------------ */}
-        <div className="lg:col-span-5">
-          <span className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 px-2.5 py-1 text-xs font-medium text-slate-700">
-            <FiMail className="h-3.5 w-3.5 text-slate-500" aria-hidden="true" />
-            Contact
-          </span>
+    <div className="pb-10">
+      <section aria-labelledby="contact-heading" className="container-x pt-6">
+        <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-10 text-white sm:px-12 sm:py-12">
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+            <div className="absolute -right-20 -top-24 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
+            <div className="absolute -bottom-24 left-1/3 h-64 w-64 rounded-full bg-primary-dark/30 blur-3xl" />
+          </div>
 
-          <h1 className="mt-5 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-            How can we help you today?
-          </h1>
+          <div className="relative max-w-2xl">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em]">
+              <FiMail aria-hidden="true" className="h-3.5 w-3.5" />
+              Contact
+            </span>
 
-          <p className="mt-4 text-base leading-relaxed text-slate-500">
-            Our dedicated patient support team is just a message or call away.
-          </p>
+            <h1
+              id="contact-heading"
+              className="mt-4 text-3xl font-bold leading-tight tracking-tight sm:text-4xl"
+            >
+              How can we help you today?
+            </h1>
 
-          <div className="mt-10 space-y-6">
-            {CONTACT_DETAILS.map(({ key, label, value, href, Icon }) => (
-              <div key={key} className="flex items-start gap-4">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-light text-primary">
-                  <Icon className="h-5 w-5" aria-hidden="true" />
-                </span>
-                <div className="min-w-0 pt-0.5">
-                  <p className="text-xs text-slate-500">{label}</p>
-                  {href ? (
-                    <a
-                      href={href}
-                      className="mt-0.5 block break-words rounded py-0.5 text-sm font-semibold text-slate-900 underline-offset-4 transition hover:text-primary hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-                    >
-                      {value}
-                    </a>
-                  ) : (
-                    <p className="mt-0.5 break-words text-sm font-semibold text-slate-900">{value}</p>
-                  )}
-                </div>
-              </div>
-            ))}
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/85 sm:text-base">
+              Our dedicated patient support team is just a message or call away.
+            </p>
           </div>
         </div>
+      </section>
 
-        {/* ------------------------------ Right: form ----------------------------- */}
-        <div className="lg:col-span-7">
-          <div className="rounded-2xl border border-slate-100 bg-slate-50/80 p-6 sm:p-8">
-            <form onSubmit={onSubmit} noValidate>
+      <div className="container-x mt-10">
+        <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+          {/* ------------------------------ Left: info ------------------------------ */}
+          <section aria-labelledby="contact-info-heading" className="card p-6 sm:p-7">
+            <h2 id="contact-info-heading" className="text-lg font-semibold text-ink">
+              Contact information
+            </h2>
+            <p className="mt-1 text-sm leading-relaxed text-slate-500">
+              Reach our patient support team directly.
+            </p>
+
+            <div className="mt-6 space-y-5">
+              {CONTACT_DETAILS.map(({ key, label, value, href, Icon }) => (
+                <div key={key} className="flex items-start gap-4">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary-light text-primary">
+                    <Icon className="h-5 w-5" aria-hidden="true" />
+                  </span>
+                  <div className="min-w-0 pt-0.5">
+                    <p className="text-xs text-slate-500">{label}</p>
+                    {href ? (
+                      <a
+                        href={href}
+                        className="mt-0.5 block break-words rounded py-0.5 text-sm font-semibold text-slate-900 underline-offset-4 transition hover:text-primary hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+                      >
+                        {value}
+                      </a>
+                    ) : (
+                      <p className="mt-0.5 break-words text-sm font-semibold text-slate-900">{value}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 rounded-2xl border border-primary/10 bg-primary-light/60 p-4">
+              <p className="text-sm font-semibold text-ink">Typical response time</p>
+              <p className="mt-1 text-sm leading-relaxed text-slate-600">Within one business day.</p>
+            </div>
+          </section>
+
+          {/* ------------------------------ Right: form ----------------------------- */}
+          <section aria-labelledby="contact-form-heading" className="card p-6 sm:p-8">
+            <h2 id="contact-form-heading" className="text-lg font-semibold text-ink">
+              Send us a message
+            </h2>
+            <p className="mt-1 text-sm text-slate-500">
+              Fields marked <span className="text-primary">*</span> are required.
+            </p>
+
+            <form onSubmit={onSubmit} noValidate className="mt-6">
               {status === "sent" && (
                 <div
                   role="status"
@@ -376,7 +409,7 @@ export default function Contact() {
                 type="submit"
                 disabled={isSending}
                 aria-busy={isSending}
-                className="mt-6 inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-primary-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70"
+                className="btn-primary mt-6"
               >
                 {isSending ? (
                   <>
@@ -391,7 +424,7 @@ export default function Contact() {
                 )}
               </button>
             </form>
-          </div>
+          </section>
         </div>
       </div>
     </div>
