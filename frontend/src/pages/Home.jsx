@@ -35,7 +35,7 @@ export default function Home() {
 
   return (
     <div className="pb-10">
-      <Hero />
+      <Hero doctors={doctors} />
 
       {/* Specialties */}
       <section className="container-x mt-16 text-center">

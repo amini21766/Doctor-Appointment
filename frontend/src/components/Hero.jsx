@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
+import { resolveImageUrl } from "../services/api.js";
 
-export default function Hero() {
+const AVATAR_COLORS = ["#fca5a5", "#93c5fd", "#fcd34d"];
+
+export default function Hero({ doctors = [] }) {
+  const avatarDoctors = doctors.filter((doctor) => doctor.image).slice(0, 3);
+
   return (
     <section className="container-x pt-6">
       <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-12 text-white sm:px-12 sm:py-16 lg:py-20">
@@ -23,13 +28,23 @@ export default function Hero() {
               </Link>
               <div className="flex items-center gap-2 text-sm text-white/85">
                 <span className="flex -space-x-2">
-                  {["#fca5a5", "#93c5fd", "#fcd34d"].map((c, i) => (
-                    <span
-                      key={i}
-                      className="h-6 w-6 rounded-full border-2 border-primary"
-                      style={{ backgroundColor: c }}
-                    />
-                  ))}
+                  {avatarDoctors.length > 0
+                    ? avatarDoctors.map((doctor) => (
+                        <img
+                          key={doctor._id}
+                          src={resolveImageUrl(doctor.image)}
+                          alt=""
+                          loading="lazy"
+                          className="h-6 w-6 rounded-full border-2 border-primary bg-white/30 object-cover object-top"
+                        />
+                      ))
+                    : AVATAR_COLORS.map((color) => (
+                        <span
+                          key={color}
+                          className="h-6 w-6 rounded-full border-2 border-primary"
+                          style={{ backgroundColor: color }}
+                        />
+                      ))}
                 </span>
                 <span>100+ doctors available</span>
               </div>
