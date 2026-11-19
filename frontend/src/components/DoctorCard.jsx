@@ -17,29 +17,29 @@ export default function DoctorCard({ doctor, showFee = false }) {
             src={image}
             alt={doctor.name}
             loading="lazy"
-            className="h-56 w-full object-cover object-top transition group-hover:scale-[1.02]"
+            className="h-40 w-full object-cover object-top transition group-hover:scale-[1.02] sm:h-56"
           />
         ) : (
-          <div className="flex h-56 w-full items-center justify-center text-4xl text-primary/40">
+          <div className="flex h-40 w-full items-center justify-center text-3xl text-primary/40 sm:h-56 sm:text-4xl">
             {doctor.name?.charAt(0) || "D"}
           </div>
         )}
       </div>
 
       {/* Body */}
-      <div className="p-4">
+      <div className="p-3 sm:p-4">
         <div className="flex items-center gap-1.5 text-xs font-medium">
           <span
-            className={`h-2 w-2 rounded-full ${
+            className={`h-2 w-2 shrink-0 rounded-full ${
               doctor.available ? "bg-green-500" : "bg-slate-300"
             }`}
           />
-          <span className={doctor.available ? "text-green-600" : "text-slate-400"}>
+          <span className="truncate">
             {doctor.available ? "Available" : "Not available"}
           </span>
         </div>
 
-        <h3 className="mt-2 truncate text-sm font-semibold text-ink sm:text-base">
+        <h3 className="mt-2 line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-snug text-ink sm:min-h-0 sm:text-base">
           {doctor.name}
         </h3>
         <p className="truncate text-xs text-slate-500 sm:text-sm">

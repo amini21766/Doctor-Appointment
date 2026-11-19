@@ -13,7 +13,7 @@ export default function DateSelector({ selected, onSelect, dates }) {
   }));
 
   return (
-    <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
+    <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2 no-scrollbar">
       {list.map((d) => {
         const isActive = selected === d.date;
         return (
@@ -22,7 +22,7 @@ export default function DateSelector({ selected, onSelect, dates }) {
             type="button"
             onClick={() => onSelect(d.date)}
             aria-pressed={isActive}
-            className={`flex min-w-[62px] flex-col items-center rounded-full border px-4 py-2 text-xs font-medium transition ${
+            className={`flex min-h-[60px] min-w-[62px] snap-start flex-col items-center justify-center rounded-full border px-4 py-2 text-xs font-medium transition ${
               isActive
                 ? "border-primary bg-primary text-white"
                 : "border-slate-200 bg-white text-slate-500 hover:border-primary hover:text-primary"

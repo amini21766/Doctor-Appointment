@@ -21,11 +21,11 @@ export default function Footer() {
         {/* Company */}
         <div>
           <h4 className="text-sm font-semibold uppercase tracking-wide text-ink">Company</h4>
-          <ul className="mt-4 space-y-2 text-sm text-slate-500">
-            <li><Link to="/" className="hover:text-primary">Home</Link></li>
-            <li><Link to="/about" className="hover:text-primary">About us</Link></li>
-            <li><Link to="/doctors" className="hover:text-primary">All Doctors</Link></li>
-            <li><Link to="/contact" className="hover:text-primary">Privacy policy</Link></li>
+          <ul className="mt-4 space-y-1 text-sm text-slate-500">
+            <li><Link to="/" className="inline-block py-0.5 hover:text-primary">Home</Link></li>
+            <li><Link to="/about" className="inline-block py-0.5 hover:text-primary">About us</Link></li>
+            <li><Link to="/doctors" className="inline-block py-0.5 hover:text-primary">All Doctors</Link></li>
+            <li><Link to="/contact" className="inline-block py-0.5 hover:text-primary">Privacy policy</Link></li>
           </ul>
         </div>
 
@@ -33,9 +33,9 @@ export default function Footer() {
         <div>
           <h4 className="text-sm font-semibold uppercase tracking-wide text-ink">Get in touch</h4>
           <ul className="mt-4 space-y-2 text-sm text-slate-500">
-            <li>Phone: +1 (555) 010-2030</li>
-            <li>Email: support@prescripto.test</li>
-            <li>Address: 123 Health Street, Medical City</li>
+            <li className="break-words">Phone: +1 (555) 010-2030</li>
+            <li className="break-words">Email: support@prescripto.test</li>
+            <li className="break-words">Address: 123 Health Street, Medical City</li>
           </ul>
         </div>
       </div>

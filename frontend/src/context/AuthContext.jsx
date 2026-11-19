@@ -23,11 +23,15 @@ export const AuthProvider = ({ children }) => {
           setUser(data.data.user);
           setToken(stored);
         }
-      } catch {
-        localStorage.removeItem(TOKEN_KEY);
-        if (active) {
-          setUser(null);
-          setToken(null);
+      } catch (error) {
+        // Only an actual 401 means the session is invalid. Transient failures
+        // (network, rate limiting, 5xx) must not destroy a valid token.
+        if (error?.response?.status === 401) {
+          localStorage.removeItem(TOKEN_KEY);
+          if (active) {
+            setUser(null);
+            setToken(null);
+          }
         }
       } finally {
         if (active) setLoading(false);

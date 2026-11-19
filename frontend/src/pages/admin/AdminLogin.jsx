@@ -34,8 +34,8 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
-      <form onSubmit={onSubmit} className="card w-full max-w-md p-8" noValidate>
+    <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 py-8">
+      <form onSubmit={onSubmit} className="card w-full max-w-md p-6 sm:p-8" noValidate>
         <div className="mb-6 flex items-center gap-2">
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-lg font-bold text-white">+</span>
           <span className="text-lg font-semibold text-ink">Admin Panel</span>

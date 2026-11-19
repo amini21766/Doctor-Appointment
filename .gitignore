@@ -9,6 +9,10 @@ node_modules/
 backend/.env
 frontend/.env
 
+# Ethereal test-mode credentials (auto-created) and local mail outbox
+backend/.ethereal.json
+backend/outbox/
+
 # Build output
 dist/
 build/

@@ -87,7 +87,7 @@ export default function Profile() {
 
       <div className="mt-8 grid gap-8 md:grid-cols-[280px_1fr]">
         {/* Card */}
-        <div className="card flex flex-col items-center p-8 text-center">
+        <div className="card min-w-0 flex flex-col items-center p-6 text-center sm:p-8">
           <div className="h-28 w-28 overflow-hidden rounded-full bg-primary-light">
             {avatar ? (
               <img src={avatar} alt={profile.name} className="h-full w-full object-cover" />
@@ -107,14 +107,18 @@ export default function Profile() {
         </div>
 
         {/* Tabs */}
-        <div className="card p-8">
-          <div className="flex gap-4 border-b border-slate-100 pb-3">
+        <div className="card min-w-0 p-5 sm:p-8">
+          <div className="flex overflow-x-auto border-b border-slate-100 no-scrollbar sm:gap-1">
             <button type="button" onClick={() => setTab("info")}
-              className={`text-sm font-medium ${tab === "info" ? "text-primary" : "text-slate-500"}`}>
+              className={`min-h-11 flex-1 whitespace-nowrap border-b-2 px-2 py-3 text-center text-xs font-medium transition sm:flex-none sm:px-3 sm:text-sm ${
+                tab === "info" ? "border-primary text-primary" : "border-transparent text-slate-500 hover:text-primary"
+              }`}>
               Profile information
             </button>
             <button type="button" onClick={() => setTab("password")}
-              className={`text-sm font-medium ${tab === "password" ? "text-primary" : "text-slate-500"}`}>
+              className={`min-h-11 flex-1 whitespace-nowrap border-b-2 px-2 py-3 text-center text-xs font-medium transition sm:flex-none sm:px-3 sm:text-sm ${
+                tab === "password" ? "border-primary text-primary" : "border-transparent text-slate-500 hover:text-primary"
+              }`}>
               Change password
             </button>
           </div>
@@ -136,7 +140,7 @@ export default function Profile() {
                   onChange={(e) => setProfile({ ...profile, phone: e.target.value })} />
               </div>
               <div className="sm:col-span-2">
-                <button type="submit" className="btn-primary" disabled={saving}>
+                <button type="submit" className="btn-primary w-full sm:w-auto" disabled={saving}>
                   {saving ? "Saving..." : "Save changes"}
                 </button>
               </div>
@@ -158,7 +162,7 @@ export default function Profile() {
                 <input id="confirmPassword" type="password" className="input" value={passwords.confirmPassword}
                   onChange={(e) => setPasswords({ ...passwords, confirmPassword: e.target.value })} />
               </div>
-              <button type="submit" className="btn-primary" disabled={changingPw}>
+              <button type="submit" className="btn-primary w-full sm:w-auto" disabled={changingPw}>
                 {changingPw ? "Updating..." : "Change password"}
               </button>
             </form>

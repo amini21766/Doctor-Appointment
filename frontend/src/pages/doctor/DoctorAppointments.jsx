@@ -60,10 +60,10 @@ export default function DoctorAppointments() {
     <div className="container-x py-10">
       <h1 className="text-2xl font-bold text-ink">Appointments</h1>
 
-      <div className="mt-6 flex gap-3 overflow-x-auto border-b border-slate-200 no-scrollbar">
+      <div className="mt-6 flex overflow-x-auto border-b border-slate-200 no-scrollbar sm:gap-2">
         {TABS.map((t) => (
           <button key={t.key} type="button" onClick={() => setTab(t.key)}
-            className={`whitespace-nowrap border-b-2 px-3 py-3 text-sm font-medium transition ${
+            className={`min-h-11 flex-1 whitespace-nowrap border-b-2 px-1 py-3 text-center text-xs font-medium transition sm:flex-none sm:px-3 sm:text-sm ${
               tab === t.key ? "border-primary text-primary" : "border-transparent text-slate-500 hover:text-primary"
             }`}>
             {t.label}
@@ -79,13 +79,13 @@ export default function DoctorAppointments() {
         ) : (
           filtered.map((a) => (
             <div key={a._id} className="card flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-center gap-4">
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-light text-lg text-primary">
+              <div className="flex min-w-0 items-center gap-4">
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary-light text-lg text-primary">
                   <FiUser />
                 </span>
-                <div>
-                  <p className="font-medium text-ink">{a.patient?.name}</p>
-                  <p className="text-xs text-slate-500">{a.patient?.email}</p>
+                <div className="min-w-0">
+                  <p className="truncate font-medium text-ink">{a.patient?.name}</p>
+                  <p className="truncate text-xs text-slate-500">{a.patient?.email}</p>
                   <div className="mt-1 flex flex-wrap items-center gap-3 text-xs text-slate-500">
                     <span className="flex items-center gap-1"><FiCalendar /> {formatDate(a.appointmentDate)}</span>
                     <span className="flex items-center gap-1"><FiClock /> {formatTimeLabel(a.appointmentTime)}</span>
@@ -94,17 +94,17 @@ export default function DoctorAppointments() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
-                <span className={`badge ${
+              <div className="flex flex-wrap items-center gap-2">
+                <span className={`badge shrink-0 ${
                   a.status === "completed" ? "bg-green-100 text-green-700"
                     : a.status === "cancelled" ? "bg-red-100 text-red-700" : "bg-blue-100 text-blue-700"
                 }`}>{a.status}</span>
                 {a.status === "booked" && (
                   <>
                     <button type="button" onClick={() => act(a._id, "complete")} disabled={busyId === a._id}
-                      className="btn-primary py-1.5 text-xs">Complete</button>
+                      className="btn-primary min-h-9 px-4 py-2 text-xs">Complete</button>
                     <button type="button" onClick={() => act(a._id, "cancel")} disabled={busyId === a._id}
-                      className="btn-danger py-1.5 text-xs">Cancel</button>
+                      className="btn-danger min-h-9 px-4 py-2 text-xs">Cancel</button>
                   </>
                 )}
               </div>

@@ -12,7 +12,10 @@ import doctorRoutes from "./routes/doctorRoutes.js";
 import appointmentRoutes from "./routes/appointmentRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import announcementRoutes from "./routes/announcementRoutes.js";
+import emailSettingsRoutes from "./routes/emailSettingsRoutes.js";
 import specialtyRoutes from "./routes/specialtyRoutes.js";
+import subscriptionRoutes from "./routes/subscriptionRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 import { apiLimiter, authLimiter } from "./middleware/rateLimiter.js";
@@ -49,12 +52,21 @@ app.get("/api/health", (req, res) =>
 
 // Routes
 app.use("/api", apiLimiter);
-app.use("/api/auth", authLimiter, authRoutes);
+// Only credential-entry routes need the strict auth limit. /auth/me is a
+// routine session read and must not lock users out after normal navigation.
+app.use("/api/auth/login", authLimiter);
+app.use("/api/auth/register", authLimiter);
+app.use("/api/auth/forgot-password", authLimiter);
+app.use("/api/auth/reset-password", authLimiter);
+app.use("/api/auth", authRoutes);
 app.use("/api/doctors", doctorRoutes);
 app.use("/api/appointments", appointmentRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/admin/announcements", announcementRoutes);
+app.use("/api/admin/email-settings", emailSettingsRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/specialties", specialtyRoutes);
+app.use("/api/subscriptions", subscriptionRoutes);
 app.use("/api/uploads", uploadRoutes);
 
 // Contact form (simple, no persistence beyond ack to keep it dependency-free)

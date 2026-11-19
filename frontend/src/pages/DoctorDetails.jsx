@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { FiCheckCircle } from "react-icons/fi";
+import { FiCheckCircle, FiMapPin } from "react-icons/fi";
 import { toast } from "react-toastify";
 import Loading from "../components/Loading.jsx";
 import AppointmentSlots from "../components/AppointmentSlots.jsx";
@@ -107,12 +107,16 @@ export default function DoctorDetails() {
     <div className="container-x py-10">
       <div className="grid gap-8 lg:grid-cols-[320px_1fr]">
         {/* Left: photo */}
-        <div>
+        <div className="mx-auto w-full max-w-md lg:mx-0 lg:max-w-none">
           <div className="overflow-hidden rounded-2xl bg-primary-light">
             {image ? (
-              <img src={image} alt={doctor.name} className="h-[340px] w-full object-cover object-top" />
+              <img
+                src={image}
+                alt={doctor.name}
+                className="h-64 w-full object-cover object-top sm:h-80 lg:h-[340px]"
+              />
             ) : (
-              <div className="flex h-[340px] items-center justify-center text-6xl text-primary/40">
+              <div className="flex h-64 items-center justify-center text-6xl text-primary/40 sm:h-80 lg:h-[340px]">
                 {doctor.name?.charAt(0)}
               </div>
             )}
@@ -121,9 +125,11 @@ export default function DoctorDetails() {
 
         {/* Right: info */}
         <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-bold text-ink">{doctor.name}</h1>
-            <FiCheckCircle className="text-primary" title="Verified" />
+          <div className="flex items-start gap-2">
+            <h1 className="min-w-0 break-words text-2xl font-bold leading-tight text-ink">
+              {doctor.name}
+            </h1>
+            <FiCheckCircle className="mt-1 shrink-0 text-primary" title="Verified" />
           </div>
 
           <div className="mt-3 flex flex-wrap items-center gap-3 text-sm text-slate-500">
@@ -138,11 +144,25 @@ export default function DoctorDetails() {
             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-500">
               {doctor.about || "No biography available."}
             </p>
-          </div>
 
-          <p className="mt-5 text-sm font-medium text-ink">
-            Appointment fee: <span className="text-primary">{currency(doctor.fees)}</span>
-          </p>
+            <div className="mt-4 space-y-3">
+              {doctor.address && (
+                <div className="flex items-center gap-3">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-light text-primary">
+                    <FiMapPin className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                  <p className="min-w-0 max-w-2xl break-words text-sm leading-relaxed text-slate-600">
+                    <span className="sr-only">Address: </span>
+                    {doctor.address}
+                  </p>
+                </div>
+              )}
+
+              <p className="text-sm font-medium text-ink">
+                Appointment fee: <span className="text-primary">{currency(doctor.fees)}</span>
+              </p>
+            </div>
+          </div>
 
           {!doctor.available && (
             <p className="mt-4 rounded-lg bg-amber-50 px-4 py-3 text-sm text-amber-700">

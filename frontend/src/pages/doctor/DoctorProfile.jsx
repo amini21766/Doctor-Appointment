@@ -92,7 +92,7 @@ export default function DoctorProfile() {
           </label>
         </div>
 
-        <form onSubmit={save} className="card grid gap-4 p-8 sm:grid-cols-2">
+        <form onSubmit={save} className="card grid gap-4 p-5 sm:grid-cols-2 sm:p-8">
           <div>
             <label className="label" htmlFor="name">Name</label>
             <input id="name" className="input" value={doctor.name}
@@ -135,14 +135,14 @@ export default function DoctorProfile() {
             <textarea id="about" rows={4} className="input" value={doctor.about}
               onChange={(e) => setDoctor({ ...doctor, about: e.target.value })} />
           </div>
-          <div className="sm:col-span-2 flex items-center justify-between">
-            <label className="flex items-center gap-2 text-sm text-slate-600">
+          <div className="flex flex-col items-start gap-4 border-t border-slate-100 pt-4 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
+            <label className="flex min-h-10 items-center gap-2 text-sm text-slate-600">
               <input type="checkbox" className="h-4 w-4 rounded border-slate-300 text-primary"
                 checked={doctor.available}
                 onChange={(e) => setDoctor({ ...doctor, available: e.target.checked })} />
               Accepting new appointments
             </label>
-            <button type="submit" className="btn-primary" disabled={saving}>
+            <button type="submit" className="btn-primary w-full sm:w-auto" disabled={saving}>
               {saving ? "Saving..." : "Save changes"}
             </button>
           </div>

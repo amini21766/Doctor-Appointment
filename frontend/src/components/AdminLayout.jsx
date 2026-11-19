@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
-  FiGrid, FiUserCheck, FiUsers, FiCalendar, FiTag, FiSettings, FiLogOut, FiMenu, FiX,
+  FiGrid, FiUserCheck, FiUsers, FiCalendar, FiTag, FiSettings, FiLogOut, FiMenu, FiX, FiSend,
 } from "react-icons/fi";
 import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext.jsx";
@@ -12,6 +12,7 @@ const items = [
   { to: "/admin/patients", label: "Patients", icon: FiUsers },
   { to: "/admin/appointments", label: "Appointments", icon: FiCalendar },
   { to: "/admin/specialties", label: "Specialties", icon: FiTag },
+  { to: "/admin/announcements", label: "Announcements", icon: FiSend },
 ];
 
 export default function AdminLayout({ children }) {
@@ -61,7 +62,7 @@ export default function AdminLayout({ children }) {
   return (
     <div className="flex min-h-screen bg-slate-50">
       {/* Sidebar (desktop) */}
-      <aside className="hidden w-64 flex-col border-r border-slate-200 bg-white p-5 lg:flex">
+      <aside className="hidden w-64 shrink-0 flex-col border-r border-slate-200 bg-white p-5 lg:sticky lg:top-0 lg:flex lg:h-screen lg:h-dvh lg:overflow-y-auto">
         <div className="mb-8 flex items-center gap-2">
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-lg font-bold text-white">+</span>
           <span className="text-lg font-semibold text-ink">Admin Panel</span>
@@ -71,18 +72,20 @@ export default function AdminLayout({ children }) {
 
       {/* Main */}
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex items-center justify-between border-b border-slate-200 bg-white px-5 py-3 lg:px-8">
+        <header className="sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-slate-200 bg-white px-4 py-2.5 sm:px-5 sm:py-3 lg:px-8">
           <button
             type="button"
-            className="text-2xl text-ink lg:hidden"
+            className="-ml-2 flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-2xl text-ink transition hover:bg-slate-100 lg:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle admin menu"
+            aria-expanded={open}
+            aria-controls="admin-navigation"
           >
             {open ? <FiX /> : <FiMenu />}
           </button>
-          <h1 className="text-base font-semibold text-ink">Admin Dashboard</h1>
-          <div className="flex items-center gap-2 text-sm text-slate-600">
-            <span className="hidden sm:inline">{user?.name}</span>
+          <h1 className="min-w-0 truncate text-base font-semibold text-ink">Admin Dashboard</h1>
+          <div className="flex shrink-0 items-center gap-2 text-sm text-slate-600">
+            <span className="hidden max-w-[140px] truncate sm:inline">{user?.name}</span>
             {user?.profileImage && (
               <img src={user.profileImage} alt="" className="h-8 w-8 rounded-full object-cover" />
             )}
@@ -90,12 +93,12 @@ export default function AdminLayout({ children }) {
         </header>
 
         {open && (
-          <div className="border-b border-slate-200 bg-white p-4 lg:hidden">
+          <div id="admin-navigation" className="border-b border-slate-200 bg-white p-4 shadow-sm lg:hidden">
             <NavItems />
           </div>
         )}
 
-        <main className="flex-1 p-5 lg:p-8">{children ?? <Outlet />}</main>
+        <main className="flex-1 p-4 sm:p-5 lg:p-8">{children ?? <Outlet />}</main>
       </div>
     </div>
   );

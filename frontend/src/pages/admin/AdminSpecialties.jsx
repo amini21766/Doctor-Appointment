@@ -78,7 +78,7 @@ export default function AdminSpecialties() {
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h2 className="text-xl font-bold text-ink">Manage Specialties</h2>
-        <button type="button" onClick={openAdd} className="btn-primary py-2"><FiPlus /> Add Specialty</button>
+        <button type="button" onClick={openAdd} className="btn-primary min-h-11 py-2"><FiPlus /> Add Specialty</button>
       </div>
 
       {loading ? (
@@ -99,10 +99,10 @@ export default function AdminSpecialties() {
               <p className="mt-2 text-xs text-slate-400">{s.doctorCount ?? 0} doctor(s)</p>
 
               <div className="mt-4 flex gap-2">
-                <button type="button" onClick={() => openEdit(s)} className="btn-outline py-1.5 text-xs">
+                <button type="button" onClick={() => openEdit(s)} className="btn-outline min-h-9 px-4 py-2 text-xs">
                   <FiEdit2 /> Edit
                 </button>
-                <button type="button" onClick={() => remove(s)} className="btn-danger py-1.5 text-xs">
+                <button type="button" onClick={() => remove(s)} className="btn-danger min-h-9 px-4 py-2 text-xs">
                   <FiTrash2 /> Delete
                 </button>
               </div>

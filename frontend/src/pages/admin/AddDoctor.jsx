@@ -67,13 +67,13 @@ export default function AddDoctor() {
     <div>
       <h2 className="text-xl font-bold text-ink">Add Doctor</h2>
 
-      <form onSubmit={onSubmit} className="card mt-5 grid gap-4 p-6 sm:grid-cols-2">
-        <div className="sm:col-span-2 flex items-center gap-5">
-          <div className="h-20 w-20 overflow-hidden rounded-full bg-primary-light">
+      <form onSubmit={onSubmit} className="card mt-5 grid gap-4 p-5 sm:grid-cols-2 sm:p-6">
+        <div className="flex flex-wrap items-center gap-4 sm:col-span-2 sm:gap-5">
+          <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full bg-primary-light">
             {img ? <img src={img} alt="preview" className="h-full w-full object-cover" />
               : <span className="flex h-full w-full items-center justify-center text-xs text-primary">IMG</span>}
           </div>
-          <label className="btn-outline cursor-pointer py-2">
+          <label className="btn-outline min-h-10 cursor-pointer px-4 py-2">
             <FiUpload /> Upload image
             <input type="file" accept="image/*" className="hidden" onChange={uploadImage} />
           </label>
@@ -133,7 +133,7 @@ export default function AddDoctor() {
         </div>
 
         <div className="sm:col-span-2">
-          <button type="submit" className="btn-primary" disabled={saving}>
+          <button type="submit" className="btn-primary w-full sm:w-auto" disabled={saving}>
             {saving ? "Creating..." : "Create doctor"}
           </button>
         </div>

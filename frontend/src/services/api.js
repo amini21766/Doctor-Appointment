@@ -57,8 +57,14 @@ export const resolveImageUrl = (url) => {
 
 /** Extract a readable message from an Axios error. */
 export const getErrorMessage = (error) => {
-  if (error?.response?.data?.message) return error.response.data.message;
-  if (error?.response?.data?.errors?.length) return error.response.data.errors[0].message;
+  const data = error?.response?.data;
+  // Validation errors carry the useful text inside `errors[]`; `message` is
+  // only the generic "Validation failed", so check the field errors first.
+  if (data?.errors?.length) {
+    const first = data.errors[0];
+    return first?.message || data.message || "Validation failed";
+  }
+  if (data?.message) return data.message;
   if (error?.message) return error.message;
   return "Something went wrong. Please try again.";
 };

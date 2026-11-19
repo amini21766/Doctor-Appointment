@@ -37,14 +37,19 @@ export default function AdminDashboard() {
       <h2 className="text-xl font-bold text-ink">Dashboard Overview</h2>
       <p className="mt-1 text-sm text-slate-500">Live statistics from the database.</p>
 
-      <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         {cards.map((c) => (
-          <div key={c.label} className="card p-5">
-            <span className={`flex h-11 w-11 items-center justify-center rounded-full text-lg ${c.color}`}>
+          <div
+            key={c.label}
+            className={`card p-4 sm:p-5 ${
+              c.label === "Revenue" ? "col-span-2 lg:col-span-1" : ""
+            }`}
+          >
+            <span className={`flex h-10 w-10 items-center justify-center rounded-full text-base sm:h-11 sm:w-11 sm:text-lg ${c.color}`}>
               <c.icon />
             </span>
-            <p className="mt-3 text-sm text-slate-500">{c.label}</p>
-            <p className="text-2xl font-semibold text-ink">{c.value}</p>
+            <p className="mt-3 text-xs leading-snug text-slate-500 sm:text-sm">{c.label}</p>
+            <p className="text-xl font-semibold text-ink sm:text-2xl">{c.value}</p>
           </div>
         ))}
       </div>
@@ -52,10 +57,30 @@ export default function AdminDashboard() {
       <div className="mt-10">
         <div className="flex items-center justify-between">
           <h3 className="text-lg font-semibold text-ink">Recent appointments</h3>
-          <Link to="/admin/appointments" className="text-sm text-primary hover:underline">View all</Link>
+          <Link to="/admin/appointments" className="inline-flex min-h-9 items-center px-1 text-sm text-primary hover:underline">View all</Link>
         </div>
 
-        <div className="card mt-4 overflow-x-auto">
+        <div className="mt-4 space-y-2 md:hidden">
+          {data.recentAppointments.map((a) => (
+            <div key={a._id} className="card p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-medium text-ink">{a.patient?.name || "—"}</p>
+                  <p className="truncate text-xs text-slate-500">{a.doctor?.name || "—"}</p>
+                </div>
+                <span className={`badge shrink-0 ${
+                  a.status === "completed" ? "bg-green-100 text-green-700"
+                    : a.status === "cancelled" ? "bg-red-100 text-red-700" : "bg-blue-100 text-blue-700"
+                }`}>{a.status}</span>
+              </div>
+              <p className="mt-2 text-xs text-slate-500">
+                {formatDate(a.appointmentDate)} · {formatTimeLabel(a.appointmentTime)}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="card mt-4 hidden overflow-x-auto md:block">
           <table className="w-full min-w-[640px] text-left text-sm">
             <thead className="border-b border-slate-100 text-slate-400">
               <tr>

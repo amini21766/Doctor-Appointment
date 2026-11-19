@@ -1,10 +1,23 @@
 import mongoose from "mongoose";
 
+const sessionSchema = new mongoose.Schema(
+  {
+    startTime: { type: String, default: "10:00" },
+    endTime: { type: String, default: "17:00" },
+  },
+  { _id: false }
+);
+
 const dayAvailabilitySchema = new mongoose.Schema(
   {
     enabled: { type: Boolean, default: false },
+    // Kept in sync with sessions[0] so older clients keep working.
     startTime: { type: String, default: "10:00" },
     endTime: { type: String, default: "17:00" },
+    // One or more bookable blocks per day (e.g. 09:00-13:00 and 16:00-20:00).
+    sessions: { type: [sessionSchema], default: undefined },
+    // Appointment length in minutes for this day.
+    slotDuration: { type: Number, default: 30, min: 5, max: 240 },
   },
   { _id: false }
 );

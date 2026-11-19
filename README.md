@@ -42,7 +42,8 @@ A complete, production-ready **MERN** (MongoDB, Express, React, Node) doctor app
 ### Doctor
 - Dashboard with real statistics (today, upcoming, completed, cancelled, patients, earnings)
 - Edit profile (specialty, degree, experience, biography, fee, address, photo)
-- Configure weekly availability (per-day enable + start/end time)
+- Configure weekly availability: enable each day, split it into multiple time blocks (e.g. 09:00–13:00 and 16:00–20:00), and pick a per-day appointment length (10–120 minutes) — each block has simple inline hour : minute fields with an am/pm toggle (type the digits, or nudge with ↑/↓)
+- Copy one day's schedule to every day, clear the whole week, and preview the exact slots patients will see
 - View and manage appointments - mark completed or cancel
 - Can only ever modify their own record and appointments
 
@@ -268,6 +269,26 @@ All responses use a consistent envelope:
 | PUT    | /api/doctors/:id | Admin, or Doctor (self) |
 | DELETE | /api/doctors/:id | Admin |
 
+`PUT /api/doctors/:id/availability` accepts a full or partial week; days you omit keep their stored schedule:
+
+```json
+{
+  "weeklyAvailability": {
+    "Monday": {
+      "enabled": true,
+      "slotDuration": 20,
+      "sessions": [
+        { "startTime": "09:00", "endTime": "11:00" },
+        { "startTime": "15:00", "endTime": "17:00" }
+      ]
+    }
+  },
+  "available": true
+}
+```
+
+Rules: up to 6 blocks per day, 24h `HH:mm` times, end after start, no overlapping blocks, and `slotDuration` between 5 and 240 minutes (the doctor UI offers 10–120). A legacy `{ "enabled": true, "startTime": "10:00", "endTime": "17:00" }` day is still accepted and normalized into a single block.
+
 ### Appointments
 | Method | Endpoint | Access |
 |--------|----------|--------|
@@ -330,7 +351,7 @@ appointmentSchema.index(
 
 If two users book the same slot simultaneously, MongoDB rejects the second insert with a duplicate-key error (code 11000), which the service converts into a `409 Conflict` with the message *"This appointment slot is no longer available."* Cancelled appointments are excluded from the index, so cancelling frees the slot again.
 
-Slots are generated every 30 minutes from each doctor's weekly availability, then filtered to remove past times and already-booked times.
+Slots are generated from each doctor's weekly availability: every enabled day can hold up to six time blocks, and each day expands its blocks using that day's appointment length (default 30 minutes, configurable from 10 to 120 in the doctor UI / 5 to 240 through the API). Past times and already-booked times are then filtered out. Days that only store a single `startTime`/`endTime` pair are still supported.
 
 ---
 

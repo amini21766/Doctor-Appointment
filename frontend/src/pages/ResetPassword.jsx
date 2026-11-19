@@ -32,8 +32,8 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="container-x flex justify-center py-16">
-      <form onSubmit={onSubmit} className="card w-full max-w-md p-8" noValidate>
+    <div className="container-x flex justify-center py-12 sm:py-16">
+      <form onSubmit={onSubmit} className="card w-full max-w-md p-6 sm:p-8" noValidate>
         <h1 className="text-xl font-semibold text-ink">Reset password</h1>
         <p className="mt-1 text-sm text-slate-500">Choose a new password for your account.</p>
 

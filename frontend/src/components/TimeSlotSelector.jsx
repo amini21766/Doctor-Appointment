@@ -35,7 +35,7 @@ export default function TimeSlotSelector({ slots = [], selected, onSelect, loadi
             type="button"
             onClick={() => onSelect(slot.value)}
             aria-pressed={isActive}
-            className={`rounded-full border px-5 py-2 text-sm transition ${
+            className={`min-h-10 rounded-full border px-5 py-2.5 text-sm transition ${
               isActive
                 ? "border-primary bg-primary text-white"
                 : "border-slate-200 bg-white text-slate-600 hover:border-primary hover:text-primary"

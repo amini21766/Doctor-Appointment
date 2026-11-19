@@ -7,7 +7,7 @@ export default function Hero() {
         <div className="grid items-center gap-8 lg:grid-cols-2">
           {/* Copy */}
           <div>
-            <h1 className="text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
+            <h1 className="text-3xl font-bold leading-tight sm:text-4xl lg:text-4xl xl:text-5xl">
               Book Appointment
               <br />
               With Trusted Doctors

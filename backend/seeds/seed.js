@@ -40,16 +40,34 @@ const PATIENTS = [
 ];
 
 const defaultAvailability = () => {
-  const weekday = { enabled: true, startTime: "10:00", endTime: "17:00" };
-  const weekend = { enabled: true, startTime: "09:00", endTime: "13:00" };
+  const weekday = {
+    enabled: true,
+    sessions: [{ startTime: "10:00", endTime: "17:00" }],
+    startTime: "10:00",
+    endTime: "17:00",
+    slotDuration: 30,
+  };
+  const weekend = {
+    enabled: true,
+    sessions: [{ startTime: "09:00", endTime: "13:00" }],
+    startTime: "09:00",
+    endTime: "13:00",
+    slotDuration: 30,
+  };
   return {
-    Monday: { ...weekday },
-    Tuesday: { ...weekday },
-    Wednesday: { ...weekday },
-    Thursday: { ...weekday },
-    Friday: { ...weekday },
-    Saturday: { ...weekend },
-    Sunday: { enabled: false, startTime: "10:00", endTime: "17:00" },
+    Monday: weekday,
+    Tuesday: weekday,
+    Wednesday: weekday,
+    Thursday: weekday,
+    Friday: weekday,
+    Saturday: weekend,
+    Sunday: {
+      enabled: false,
+      sessions: [{ startTime: "10:00", endTime: "17:00" }],
+      startTime: "10:00",
+      endTime: "17:00",
+      slotDuration: 30,
+    },
   };
 };
 

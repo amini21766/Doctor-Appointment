@@ -43,7 +43,7 @@ export default function DoctorDashboard() {
 
   return (
     <div className="container-x py-10">
-      <h1 className="text-2xl font-bold text-ink">Welcome, {user?.name}</h1>
+      <h1 className="break-words text-2xl font-bold text-ink">Welcome, {user?.name}</h1>
       <p className="mt-1 text-sm text-slate-500">Here&apos;s an overview of your practice.</p>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -52,8 +52,8 @@ export default function DoctorDashboard() {
             <span className="flex h-12 w-12 items-center justify-center rounded-full bg-primary-light text-xl text-primary">
               <c.icon />
             </span>
-            <div>
-              <p className="text-sm text-slate-500">{c.label}</p>
+            <div className="min-w-0">
+              <p className="text-sm leading-snug text-slate-500">{c.label}</p>
               <p className="text-xl font-semibold text-ink">{c.value}</p>
             </div>
           </Link>
@@ -63,7 +63,7 @@ export default function DoctorDashboard() {
       <div className="mt-10">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-ink">Today&apos;s appointments</h2>
-          <Link to="/doctor-appointments" className="text-sm text-primary hover:underline">View all</Link>
+          <Link to="/doctor-appointments" className="inline-flex min-h-9 items-center px-1 text-sm text-primary hover:underline">View all</Link>
         </div>
 
         <div className="mt-4 space-y-3">
@@ -73,21 +73,21 @@ export default function DoctorDashboard() {
             </p>
           ) : (
             stats.todays.map((a) => (
-              <div key={a._id} className="card flex items-center justify-between p-4">
-                <div>
-                  <p className="font-medium text-ink">{a.patient?.name}</p>
-                  <p className="text-xs text-slate-500">{formatTimeLabel(a.appointmentTime)} · {formatDate(a.appointmentDate)}</p>
+              <div key={a._id} className="card flex items-center justify-between gap-3 p-4">
+                <div className="min-w-0">
+                  <p className="truncate font-medium text-ink">{a.patient?.name}</p>
+                  <p className="truncate text-xs text-slate-500">{formatTimeLabel(a.appointmentTime)} · {formatDate(a.appointmentDate)}</p>
                 </div>
-                <span className="badge bg-blue-100 text-blue-700">{a.status}</span>
+                <span className="badge shrink-0 bg-blue-100 text-blue-700">{a.status}</span>
               </div>
             ))
           )}
         </div>
       </div>
 
-      <div className="mt-8 flex gap-3">
-        <Link to="/doctor-profile" className="btn-outline py-2">Edit profile</Link>
-        <Link to="/doctor-availability" className="btn-outline py-2">Manage availability</Link>
+      <div className="mt-8 flex flex-wrap gap-3">
+        <Link to="/doctor-profile" className="btn-outline min-h-11 py-2">Edit profile</Link>
+        <Link to="/doctor-availability" className="btn-outline min-h-11 py-2">Manage availability</Link>
       </div>
     </div>
   );

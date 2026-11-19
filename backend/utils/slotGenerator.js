@@ -19,6 +19,21 @@ export const DAY_NAMES = [
 ];
 
 export const SLOT_INTERVAL_MINUTES = 30;
+export const MIN_SLOT_MINUTES = 5;
+export const MAX_SLOT_MINUTES = 240;
+
+const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/;
+
+/** True when the value looks like a normalized 24h "HH:mm" string. */
+export const isValidTime = (value) => TIME_PATTERN.test(String(value ?? "").trim());
+
+/** Clamp an appointment length to a sane range (falls back to 30 minutes). */
+export const normalizeSlotMinutes = (value, fallback = SLOT_INTERVAL_MINUTES) => {
+  const n = Number(value);
+  const base = Number.isFinite(n) ? n : Number(fallback);
+  if (!Number.isFinite(base)) return SLOT_INTERVAL_MINUTES;
+  return Math.min(MAX_SLOT_MINUTES, Math.max(MIN_SLOT_MINUTES, Math.round(base)));
+};
 
 /** Convert "HH:mm" to minutes since midnight. */
 export const toMinutes = (value) => {
@@ -76,16 +91,49 @@ export const isPast = (dateStr, timeStr, now = new Date()) => {
   return slot < now.getTime();
 };
 
-/** Build the raw slot list ("HH:mm") for a day availability config. */
+/**
+ * Return the usable time blocks for a day.
+ * New records store `sessions: [{ startTime, endTime }]`; older records that
+ * only have a single start/end pair are still supported.
+ */
+export const getDaySessions = (dayConfig) => {
+  if (!dayConfig) return [];
+  const raw = Array.isArray(dayConfig.sessions) && dayConfig.sessions.length
+    ? dayConfig.sessions
+    : [dayConfig];
+
+  return raw
+    .map((session) => ({
+      startTime: String(session?.startTime ?? "").trim(),
+      endTime: String(session?.endTime ?? "").trim(),
+    }))
+    .filter(
+      ({ startTime, endTime }) =>
+        isValidTime(startTime) &&
+        isValidTime(endTime) &&
+        toMinutes(endTime) > toMinutes(startTime)
+    )
+    .sort((a, b) => toMinutes(a.startTime) - toMinutes(b.startTime));
+};
+
+/**
+ * Build the raw slot list ("HH:mm") for a day availability config.
+ * Every enabled time block is expanded using the day's appointment length.
+ */
 export const buildSlotsForDay = (dayConfig, intervalMinutes = SLOT_INTERVAL_MINUTES) => {
   if (!dayConfig || !dayConfig.enabled) return [];
-  const start = toMinutes(dayConfig.startTime || "10:00");
-  const end = toMinutes(dayConfig.endTime || "17:00");
-  const slots = [];
-  for (let m = start; m + intervalMinutes <= end; m += intervalMinutes) {
-    slots.push(toTimeString(m));
+  const interval = normalizeSlotMinutes(dayConfig.slotDuration, intervalMinutes);
+  const slots = new Set();
+
+  for (const { startTime, endTime } of getDaySessions(dayConfig)) {
+    const start = toMinutes(startTime);
+    const end = toMinutes(endTime);
+    for (let m = start; m + interval <= end; m += interval) {
+      slots.add(toTimeString(m));
+    }
   }
-  return slots;
+
+  return [...slots].sort((a, b) => toMinutes(a) - toMinutes(b));
 };
 
 /**
@@ -113,12 +161,17 @@ export const getAvailableSlots = ({
 export default {
   DAY_NAMES,
   SLOT_INTERVAL_MINUTES,
+  MIN_SLOT_MINUTES,
+  MAX_SLOT_MINUTES,
   toMinutes,
   toTimeString,
   formatTimeLabel,
+  isValidTime,
+  normalizeSlotMinutes,
   toDateString,
   getUpcomingDates,
   isPast,
+  getDaySessions,
   buildSlotsForDay,
   getAvailableSlots,
 };

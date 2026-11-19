@@ -16,6 +16,7 @@ const Login = lazy(() => import("./pages/Login.jsx"));
 const Register = lazy(() => import("./pages/Register.jsx"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword.jsx"));
 const ResetPassword = lazy(() => import("./pages/ResetPassword.jsx"));
+const Unsubscribe = lazy(() => import("./pages/Unsubscribe.jsx"));
 const Profile = lazy(() => import("./pages/Profile.jsx"));
 const MyAppointments = lazy(() => import("./pages/MyAppointments.jsx"));
 const NotFound = lazy(() => import("./pages/NotFound.jsx"));
@@ -32,6 +33,7 @@ const AddDoctor = lazy(() => import("./pages/admin/AddDoctor.jsx"));
 const AdminPatients = lazy(() => import("./pages/admin/AdminPatients.jsx"));
 const AdminAppointments = lazy(() => import("./pages/admin/AdminAppointments.jsx"));
 const AdminSpecialties = lazy(() => import("./pages/admin/AdminSpecialties.jsx"));
+const AdminAnnouncements = lazy(() => import("./pages/admin/AdminAnnouncements.jsx"));
 
 const PublicLayout = ({ children }) => (
   <div className="flex min-h-screen flex-col">
@@ -56,6 +58,7 @@ export default function App() {
         <Route path="/register" element={<PublicLayout><Register /></PublicLayout>} />
         <Route path="/forgot-password" element={<PublicLayout><ForgotPassword /></PublicLayout>} />
         <Route path="/reset-password/:token" element={<PublicLayout><ResetPassword /></PublicLayout>} />
+        <Route path="/unsubscribe" element={<PublicLayout><Unsubscribe /></PublicLayout>} />
 
         {/* ---------- Patient ---------- */}
         <Route element={<ProtectedRoute />}>
@@ -85,6 +88,7 @@ export default function App() {
             <Route path="/admin/patients" element={<AdminLayout><AdminPatients /></AdminLayout>} />
             <Route path="/admin/appointments" element={<AdminLayout><AdminAppointments /></AdminLayout>} />
             <Route path="/admin/specialties" element={<AdminLayout><AdminSpecialties /></AdminLayout>} />
+            <Route path="/admin/announcements" element={<AdminLayout><AdminAnnouncements /></AdminLayout>} />
           </Route>
         </Route>
 

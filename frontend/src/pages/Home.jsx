@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import Hero from "../components/Hero.jsx";
 import SpecialtyCard from "../components/SpecialtyCard.jsx";
 import DoctorGrid from "../components/DoctorGrid.jsx";
+import Subscribe from "../components/Subscribe.jsx";
 import api, { getErrorMessage } from "../services/api.js";
 
 export default function Home() {
@@ -43,7 +44,7 @@ export default function Home() {
           Browse through trusted doctors and schedule your appointment easily.
         </p>
 
-        <div className="mt-10 grid grid-cols-3 gap-6 sm:grid-cols-4 md:grid-cols-6">
+        <div className="mt-10 grid grid-cols-3 gap-x-3 gap-y-7 sm:grid-cols-4 sm:gap-6 md:grid-cols-6">
           {loading
             ? Array.from({ length: 6 }).map((_, i) => (
                 <div key={i} className="mx-auto h-20 w-20 animate-pulse rounded-full bg-slate-200 sm:h-24 sm:w-24" />
@@ -95,6 +96,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Newsletter subscription */}
+      <Subscribe />
     </div>
   );
 }
